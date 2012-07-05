@@ -187,10 +187,10 @@ class MultiVolumeImporterPluginClass(DICOMPlugin):
         gradients.SetNumberOfComponents(3)
         gradients.SetNumberOfTuples(nFrames)
 
-        bValuesArray = vtk.util.numpy_support.vtk_to_numpy(bValues)
-        gradientsArray = vtk.util.numpy_support.vtk_to_numpy(gradients)
-        bValuesArray[:] = 0
-        gradientsArray[:] = 1
+        for i in range(nFrames):
+          bValues.SetComponent(i, 0, 1)
+          for j in range(3):
+            gradients.SetComponent(i, j, 2)
 
         dwiNode = slicer.mrmlScene.CreateNodeByClass('vtkMRMLDiffusionWeightedVolumeNode')
         dwiNode.SetName('MultiVolume DisplayVolume')
