@@ -49,18 +49,13 @@ class MultiVolumeImporterPluginClass(DICOMPlugin):
 
     for file in files:
 
-      slicer.dicomDatabase.loadFileHeader(file)
-      v = slicer.dicomDatabase.headerValue("0020,000E") # SeriesInstanceUID
-      d = slicer.dicomDatabase.headerValue("0008,103e") # SeriesDescription
+      value = slicer.dicomDatabase.fileValue(file, "0020,000E") # SeriesInstanceUID
+      desc = slicer.dicomDatabase.fileValue(file, "0008,103e") # SeriesDescription
 
-      try:
-        value = v[v.index('[')+1:v.index(']')]
-      except ValueError:
+      if value == "":
         value = "Unknown"
 
-      try:
-        desc = d[d.index('[')+1:d.index(']')]
-      except ValueError:
+      if desc == "":
         desc = "Unknown"
  
       if not subseriesLists.has_key(value):
