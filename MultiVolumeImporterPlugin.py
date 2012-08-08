@@ -129,9 +129,11 @@ class MultiVolumeImporterPluginClass(DICOMPlugin):
         os.unlink(tmpDir+'/'+f)
 
     nFrames = int(mvNode.GetAttribute('MultiVolume.NumberOfFrames'))
-    files = string.split(mvNode.GetAttribute('MultiVolume.FrameFileList'),' ')
+    files = string.split(mvNode.GetAttribute('MultiVolume.FrameFileList'),',')
     nFiles = len(files)
     filesPerFrame = nFiles/nFrames
+    print("MultiVolumePlugin::load() -- found "+str(nFrames)+" with "+str(filesPerFrame)+" files per frame")
+    print files
     frames = []
 
     dwiImage = vtk.vtkImageData()
